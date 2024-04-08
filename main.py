@@ -12,14 +12,13 @@ global goon_count
 goon_count =[]
 
 #Get Todays Date
-current_date = datetime.date.today()
-
+current_date = datetime.datetime.now()
 if exists('save.pkl') and getsize('save.pkl') > 0:
     with open('save.pkl', 'rb') as file:
         goon_count = pickle.load(file)
 else:
     with open('save.pkl', 'wb') as file:
-        goon_count = [0,current_date - datetime.timedelta(days = 1)]
+        goon_count = [0,current_date - datetime.timedelta(seconds = 1200)]
         pickle.dump(goon_count, file)
 
 class Window(QWidget):
@@ -31,7 +30,7 @@ class Window(QWidget):
         self.button.setFixedSize(500, 500)
         self.button.clicked.connect(self.goon_counts)
         
-        if current_date - datetime.timedelta(days = 1) == goon_count[1]:
+        if current_date - datetime.timedelta(minutes = 20) == goon_count[1]:
             self.button.setEnabled(True)
         else:
             self.button.setEnabled(False)
